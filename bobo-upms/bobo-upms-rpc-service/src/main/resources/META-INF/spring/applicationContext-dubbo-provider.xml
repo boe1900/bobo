@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <dubbo:application name="bobo-upms-rpc-service"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:protocol name="dubbo" port="20881"/>
+
+    <!-- 系统 -->
+    <bean id="upmsSystemService" class="com.bobo.upms.rpc.service.impl.UpmsSystemServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsSystemService" ref="upmsSystemService" timeout="10000"/>
+
+    <!-- 组织 -->
+    <bean id="upmsOrganizationService" class="com.bobo.upms.rpc.service.impl.UpmsOrganizationServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsOrganizationService" ref="upmsOrganizationService" timeout="10000"/>
+
+    <!-- 用户组织 -->
+    <bean id="upmsUserOrganizationService" class="com.bobo.upms.rpc.service.impl.UpmsUserOrganizationServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsUserOrganizationService" ref="upmsUserOrganizationService" timeout="10000"/>
+
+    <!-- 用户 -->
+    <bean id="upmsUserService" class="com.bobo.upms.rpc.service.impl.UpmsUserServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsUserService" ref="upmsUserService" timeout="10000"/>
+
+    <!-- 角色 -->
+    <bean id="upmsRoleService" class="com.bobo.upms.rpc.service.impl.UpmsRoleServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsRoleService" ref="upmsRoleService" timeout="10000"/>
+
+    <!-- 权限 -->
+    <bean id="upmsPermissionService" class="com.bobo.upms.rpc.service.impl.UpmsPermissionServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsPermissionService" ref="upmsPermissionService" timeout="10000"/>
+
+    <!-- 角色权限 -->
+    <bean id="upmsRolePermissionService" class="com.bobo.upms.rpc.service.impl.UpmsRolePermissionServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsRolePermissionService" ref="upmsRolePermissionService" timeout="10000"/>
+
+    <!-- 用户权限 -->
+    <bean id="upmsUserPermissionService" class="com.bobo.upms.rpc.service.impl.UpmsUserPermissionServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsUserPermissionService" ref="upmsUserPermissionService" timeout="10000"/>
+
+    <!-- 用户角色 -->
+    <bean id="upmsUserRoleService" class="com.bobo.upms.rpc.service.impl.UpmsUserRoleServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsUserRoleService" ref="upmsUserRoleService" timeout="10000"/>
+
+    <!-- 操作日志 -->
+    <bean id="upmsLogService" class="com.bobo.upms.rpc.service.impl.UpmsLogServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsLogService" ref="upmsLogService" timeout="10000"/>
+
+
+</beans>

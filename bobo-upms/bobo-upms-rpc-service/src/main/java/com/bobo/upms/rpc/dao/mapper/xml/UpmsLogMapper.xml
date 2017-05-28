@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.upms.rpc.dao.mapper.UpmsLogMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.bobo.upms.rpc.pojo.UpmsLog">
+		<id column="log_id" property="logId" />
+		<result column="description" property="description" />
+		<result column="username" property="username" />
+		<result column="start_time" property="startTime" />
+		<result column="spend_time" property="spendTime" />
+		<result column="base_path" property="basePath" />
+		<result column="uri" property="uri" />
+		<result column="url" property="url" />
+		<result column="method" property="method" />
+		<result column="parameter" property="parameter" />
+		<result column="user_agent" property="userAgent" />
+		<result column="ip" property="ip" />
+		<result column="result" property="result" />
+		<result column="permissions" property="permissions" />
+	</resultMap>
+
+</mapper>

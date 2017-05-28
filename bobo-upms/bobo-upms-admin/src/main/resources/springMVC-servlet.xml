@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--扫描 controller-->
+    <context:component-scan base-package="**.*controller"/>
+
+
+    <!-- 定义视图解析器 -->
+    <bean id="velocityConfig"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/views/" />
+        <property name="configLocation" value="classpath:velocity.properties" />
+    </bean>
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="suffix" value=".vm" />
+        <property name="cache" value="false" />
+        <property name="contentType" value="text/html;charset=utf-8" />
+        <property name="dateToolAttribute" value="date" /><!--日期函数名称-->
+        <property name="numberToolAttribute" value="number" /><!--数字函数名称-->
+        <property name="layoutUrl" value="layout/default.vm"/>
+        <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+    </bean>
+
+    <!-- 重定向视图控制器标签 -->
+    <mvc:redirect-view-controller path="/redirect"
+                                  redirect-url="/status" context-relative="true" status-code="301"
+                                  keep-query-params="true" />
+
+    <mvc:default-servlet-handler />
+
+    <!-- 状态控制器标签 -->
+    <mvc:status-controller path="/status" status-code="200" />
+
+    <!-- 带状态的视图控制器标签 -->
+    <mvc:view-controller path="/error/**" status-code="200" />
+
+    <!-- 配置静态资源，直接映射到对应的文件夹，DispatcherServlet 不处理 -->
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+
+    <!-- 网站图标，注意 ！favicon.ico 放在 webapp 目录 -->
+    <mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+
+
+
+    <mvc:annotation-driven>
+        <!-- 编码转换 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+</beans>
