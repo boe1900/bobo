@@ -40,4 +40,9 @@
 		<scope>application</scope>
 		<class>org.apache.velocity.tools.generic.SortTool</class>
 	</tool>
+	<tool>
+		 <key>shiro</key>
+		<scope>application</scope>
+		<class>com.bobo.upms.client.shiro.tools.VelocityTool</class>
+	</tool>
 </toolbox>
