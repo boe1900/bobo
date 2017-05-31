@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.upms.rpc.dao.mapper.UpmsApiMapper">
+
+	<!-- 权限 -->
+	<resultMap id="UpmsPermissionResultMap" type="com.bobo.upms.rpc.pojo.UpmsPermission">
+		<id column="permission_id" property="permissionId" />
+		<result column="system_id" property="systemId" />
+		<result column="pid" property="pid" />
+		<result column="name" property="name" />
+		<result column="type" property="type" />
+		<result column="permission_value" property="permissionValue" />
+		<result column="uri" property="uri" />
+		<result column="icon" property="icon" />
+		<result column="status" property="status" />
+		<result column="ctime" property="ctime" />
+		<result column="orders" property="orders" />
+	</resultMap>
+
+	<!-- 角色 -->
+	<resultMap id="UpmsRoleResultMap" type="com.bobo.upms.rpc.pojo.UpmsRole">
+		<id column="role_id" property="roleId" />
+		<result column="name" property="name" />
+		<result column="title" property="title" />
+		<result column="description" property="description" />
+		<result column="ctime" property="ctime" />
+		<result column="orders" property="orders" />
+	</resultMap>
+
+
+	<!-- 权限字段 -->
+	<sql id="UpmsPermission_Column_List">
+		permission_id, system_id, pid, name, type, permission_value, uri, icon, status, ctime, orders
+	</sql>
+
+	<!-- 角色字段 -->
+	<sql id="UpmsRole_Column_List">
+		role_id, name, title, description, ctime, orders
+	</sql>
+
+	<!-- 根据用户获取所拥有的权限 -->
+	<select id="selectUpmsPermissionByUpmsUserId" parameterType="java.lang.Integer" resultMap="UpmsPermissionResultMap">
+		select
+			<include refid="UpmsPermission_Column_List"/>
+		from upms_permission up where up.status=1 and up.permission_id in (
+			select permission_id from upms_role_permission urp where urp.role_id in (
+				select uur.role_id role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
+			)
+			union
+			select permission_id from upms_user_permission uup1 where uup1.user_id=#{upmsUserId,jdbcType=INTEGER} and uup1.type=1
+		)
+		and up.permission_id not in (
+			select permission_id from upms_user_permission uup2 where uup2.user_id=#{upmsUserId,jdbcType=INTEGER} and uup2.type=-1
+		) order by up.orders asc
+	</select>
+
+
+	<!-- 根据用户id获取所属的角色 -->
+	<select id="selectUpmsRoleByUpmsUserId" resultMap="UpmsRoleResultMap" parameterType="java.lang.Integer">
+		SELECT
+			<include refid="UpmsRole_Column_List" />
+		FROM upms_role ur WHERE ur.role_id IN (
+			SELECT uur.role_id FROM upms_user_role uur WHERE uur.user_id=#{upmsUserId,jdbcType=INTEGER}
+		)
+	</select>
+
+
+
+</mapper>

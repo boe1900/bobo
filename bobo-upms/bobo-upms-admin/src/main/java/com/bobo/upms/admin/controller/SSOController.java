@@ -139,6 +139,18 @@ public class SSOController {
     }
 
 
+    @ApiOperation(value = "退出登录")
+    @RequestMapping(value = "logout",method = RequestMethod.GET)
+    public String logout(HttpServletRequest request){
+        //shrio退出登录
+        SecurityUtils.getSubject().logout();
+        //跳回原地址
+        String redirectUrl = request.getHeader("Referer");
+        if(null == redirectUrl){
+            redirectUrl = "/";
+        }
+        return "redirect:" +redirectUrl;
+    }
 
 
 }

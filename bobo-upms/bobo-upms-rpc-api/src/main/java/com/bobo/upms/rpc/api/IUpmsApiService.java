@@ -30,7 +30,7 @@ public interface IUpmsApiService {
      * @param upmsRoleId
      * @return
      */
-    List<UpmsRolePermission> selectUpmsRolePermisstionByUpmsRoleId(Integer upmsRoleId);
+    List<UpmsRolePermission> selectUpmsRolePermissionByUpmsRoleId(Integer upmsRoleId);
 
     /**
      * 根据用户id获取所拥有的权限

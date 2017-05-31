@@ -66,5 +66,14 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!-- 拦截器 -->
+    <mvc:interceptors>
+        <!-- 获取登录信息 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/manage/**"/>
+            <bean class="com.bobo.upms.admin.interceptor.UpmsInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 
 </beans>
