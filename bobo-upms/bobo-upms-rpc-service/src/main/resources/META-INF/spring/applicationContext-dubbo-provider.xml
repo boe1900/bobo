@@ -55,5 +55,9 @@
     <bean id="upmsLogService" class="com.bobo.upms.rpc.service.impl.UpmsLogServiceImpl"/>
     <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsLogService" ref="upmsLogService" timeout="10000"/>
 
+    <!-- 接口服务 -->
+    <bean id="upmsApiService" class="com.bobo.upms.rpc.service.impl.UpmsApiServiceImpl"/>
+    <dubbo:service interface="com.bobo.upms.rpc.api.IUpmsApiService" ref="upmsApiService" timeout="10000"/>
+
 
 </beans>

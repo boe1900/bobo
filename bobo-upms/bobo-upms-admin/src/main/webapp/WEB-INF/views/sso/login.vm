@@ -37,7 +37,8 @@
 <script src="#springUrl('/static/plugins/bootstrap-3.3.0/js/bootstrap.min.js')"></script>
 <script src="#springUrl('/static/plugins/waves-0.7.5/waves.min.js')"></script>
 <script src="#springUrl('/static/plugins/checkbix/js/checkbix.min.js')"></script>
-
+<script>var BASE_PATH = "#springUrl('')";</script>
+<script>var BACK_URL = '';</script>
 <script src="#springUrl('/static/js/login.js')"></script>
 <script type="text/javascript">
     Checkbix.init();

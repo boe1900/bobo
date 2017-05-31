@@ -17,7 +17,7 @@
     <dubbo:consumer check="false"/>
 
     <!-- 系统 -->
-    <dubbo:reference id="iUpmsSystemService" interface="com.bobo.upms.rpc.api.IUpmsSystemService" mock="false"/>
+    <dubbo:reference id="upmsSystemService" interface="com.bobo.upms.rpc.api.IUpmsSystemService" mock="false"/>
     <!-- 组织 -->
     <dubbo:reference id="upmsOrganizationService" interface="com.bobo.upms.rpc.api.IUpmsOrganizationService" mock="false"/>
     <!-- 用户组织 -->
@@ -37,6 +37,6 @@
     <!-- 操作日志 -->
     <dubbo:reference id="upmsLogService" interface="com.bobo.upms.rpc.api.IUpmsLogService" mock="false"/>
     <!-- 接口服务 -->
-    <!--<dubbo:reference id="upmsApiService" interface="com.bobo.upms.rpc.api.IUpmsApiService" mock="true"/>-->
+    <dubbo:reference id="upmsApiService" interface="com.bobo.upms.rpc.api.IUpmsApiService" mock="false"/>
 
 </beans>

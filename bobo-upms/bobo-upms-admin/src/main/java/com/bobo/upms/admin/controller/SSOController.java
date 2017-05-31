@@ -3,23 +3,31 @@ package com.bobo.upms.admin.controller;
 
 
 import com.bobo.common.util.RedisUtil;
+import com.bobo.common.util.StringUtil;
 import com.bobo.upms.client.constant.UpmsResult;
 import com.bobo.upms.client.constant.UpmsResultConstant;
+import com.bobo.upms.client.shiro.session.UpmsSession;
+import com.bobo.upms.client.shiro.session.UpmsSessionDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 /**
  * Created by huabo on 2017/5/27.
@@ -29,6 +37,8 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "单点登录管理", description = "单点登录管理")
 public class SSOController {
 
+    private final static Logger _log = LoggerFactory.getLogger(SSOController.class);
+
     // 全局会话key
     private final static String BOBO_UPMS_SERVER_SESSION_ID = "bobo-upms-server-session-id";
     // 全局会话key列表
@@ -37,16 +47,41 @@ public class SSOController {
     private final static String BOBO_UPMS_SERVER_CODE = "bobo-upms-server-code";
 
 
+    @Autowired
+    UpmsSessionDao upmsSessionDao;
+
+
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(HttpServletRequest request) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        String serverSessionId = session.getId().toString();
+        //判断是否已经登录
+        String code = RedisUtil.get(BOBO_UPMS_SERVER_SESSION_ID+"_"+serverSessionId);
+        if(StringUtils.isNotBlank(code)){
+            //回跳
+            String backurl = request.getParameter("backurl");
+            String username = (String) subject.getPrincipal();
+            if(StringUtils.isBlank(backurl)){
+                backurl = "/";
+            }else {
+                if (backurl.contains("?")) {
+                    backurl += "&upms_code=" + code + "&upms_username=" + username;
+                } else {
+                    backurl += "?upms_code=" + code + "&upms_username=" + username;
+                }
+            }
+            _log.debug("认证中心帐号通过，带code回跳：{}", backurl);
+            return "redirect:"+backurl;
+        }
 
         return "/sso/login";
     }
 
 
     @ApiOperation(value = "登录")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object login(HttpServletRequest request, HttpServletResponse response){
         String username = request.getParameter("username");
@@ -68,21 +103,39 @@ public class SSOController {
             //使用shiro认证
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username,password);
 
+            if(BooleanUtils.toBoolean(rememberMe)){
+                usernamePasswordToken.setRememberMe(true);
+            }else {
+                usernamePasswordToken.setRememberMe(false);
+            }
+            try {
+                subject.login(usernamePasswordToken);
+            } catch (UnknownAccountException e) {
+                return  new UpmsResult(UpmsResultConstant.INVALID_USERNAME,"账号不存在");
+            }catch (IncorrectCredentialsException e){
+                return new UpmsResult(UpmsResultConstant.INVALID_PASSWORD,"密码错误");
+            }catch (LockedAccountException e){
+                return new UpmsResult(UpmsResultConstant.INVALID_ACCOUNT,"账号已锁定");
+            }
+            //更新session状态
+            upmsSessionDao.updateStatus(sessionId, UpmsSession.OnlineStatus.on_line);
+            // 全局会话sessionId列表，供会话管理
+            RedisUtil.lpush(BOBO_UPMS_SERVER_SESSION_IDS,sessionId);
+            // 默认验证账号密码正确，创建code
+            String code = UUID.randomUUID().toString();
+            //全局的会话code
+            RedisUtil.set(BOBO_UPMS_SERVER_SESSION_ID+"_"+sessionId,code,(int) subject.getSession().getTimeout() / 1000);
 
-
-
-
-
-
-
+            //code校验值
+            RedisUtil.set(BOBO_UPMS_SERVER_CODE+"_"+code,code,(int) subject.getSession().getTimeout() / 1000);
         }
-
-
-
-
-
-
-        return null;
+        //回跳登录前地址
+        String backUrl = request.getParameter("backurl");
+        if(StringUtils.isEmpty(backUrl)){
+            return new UpmsResult(UpmsResultConstant.SUCCESS,"/");
+        }else {
+            return new UpmsResult(UpmsResultConstant.SUCCESS,backUrl);
+        }
     }
 
 
