@@ -61,6 +61,14 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="mapperLocations" value="classpath*:com/bobo/upms/rpc/dao/mapper/xml/**/*Mapper.xml"/>
+        <property name="plugins">
+            <array>
+                <!-- 分页插件配置 -->
+                <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+                    <property name="dialectType" value="mysql" />
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!-- Mapper接口所在包名，Spring会自动查找其下的Mapper -->

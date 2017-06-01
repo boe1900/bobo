@@ -133,7 +133,7 @@
             </li>
             #foreach($upmsPermission in $upmsPermissions)
                 #if($upmsPermission.pid == 0)
-                    <li class="sub-menu system_menus system_${upmsPermission.systemId} ${status.index}" #if($upmsPermission.systemId != 1) style="display: none;"#end>
+                    <li class="sub-menu system_menus system_${upmsPermission.systemId} $math.sub($!{velocityCount},1)" #if($upmsPermission.systemId != 1) style="display: none;"#end>
                     <a class="waves-effect" href="javascript:;"><i class="${upmsPermission.icon}"></i> ${upmsPermission.name}</a>
                     <ul>
                         #foreach($subUpmsPermission in $upmsPermissions)
