@@ -4,19 +4,29 @@ import com.bobo.common.util.MD5Util;
 import com.bobo.common.util.PropertiesFileUtil;
 import com.bobo.upms.rpc.api.IUpmsApiService;
 import com.bobo.upms.rpc.api.IUpmsSystemService;
+import com.bobo.upms.rpc.pojo.UpmsPermission;
+import com.bobo.upms.rpc.pojo.UpmsRole;
 import com.bobo.upms.rpc.pojo.UpmsUser;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by huabo on 2017/5/27.
  */
 public class UpmsRealm extends AuthorizingRealm {
 
+    private static Logger _log = LoggerFactory.getLogger(UpmsRealm.class);
 
     @Resource
     private IUpmsApiService upmsApiService;
@@ -28,7 +38,30 @@ public class UpmsRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        String username = (String) principalCollection.getPrimaryPrincipal();
+        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
+        //当前用户所有角色
+        List<UpmsRole> upmsRoles = upmsApiService.selectUpmsRoleByUpmsUserId(upmsUser.getUserId());
+        Set<String> roles = new HashSet<>();
+        for(UpmsRole upmsRole:upmsRoles){
+            if(StringUtils.isNotBlank(upmsRole.getName())){
+                roles.add(upmsRole.getName());
+            }
+        }
+
+        //当前用户所有权限
+        List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
+        Set<String> permissions = new HashSet<>();
+        for(UpmsPermission upmsPermission:upmsPermissions){
+            if(StringUtils.isNotBlank(upmsPermission.getPermissionValue())){
+                permissions.add(upmsPermission.getPermissionValue());
+            }
+        }
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        simpleAuthorizationInfo.setStringPermissions(permissions);
+        simpleAuthorizationInfo.setRoles(roles);
+
+        return simpleAuthorizationInfo;
     }
 
 

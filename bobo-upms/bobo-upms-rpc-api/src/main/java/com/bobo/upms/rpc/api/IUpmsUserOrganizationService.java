@@ -12,5 +12,11 @@ import com.bobo.upms.rpc.pojo.UpmsUserOrganization;
  * @since 2017-05-26
  */
 public interface IUpmsUserOrganizationService extends IService<UpmsUserOrganization> {
-	
+    /**
+     * 用户组织
+     * @param organizationIds 组织ids
+     * @param id 用户id
+     * @return
+     */
+    int organization(String[] organizationIds, int id);
 }

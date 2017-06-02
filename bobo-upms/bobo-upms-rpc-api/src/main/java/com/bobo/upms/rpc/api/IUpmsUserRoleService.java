@@ -12,5 +12,11 @@ import com.bobo.upms.rpc.pojo.UpmsUserRole;
  * @since 2017-05-26
  */
 public interface IUpmsUserRoleService extends IService<UpmsUserRole> {
-	
+    /**
+     * 用户角色
+     * @param roleIds 角色ids
+     * @param id 用户id
+     * @return
+     */
+    int role(String[] roleIds, int id);
 }

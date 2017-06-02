@@ -10,31 +10,31 @@
 <body>
 <div id="main">
     <div id="toolbar">
-        #if($shiro.hasPermission("upms:system:create"))
+        #if($shiro.hasPermission("upms:organization:create"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()">
-                <i class="zmdi zmdi-plus"></i>新增系统
+                <i class="zmdi zmdi-plus"></i>新增组织
             </a>
         #end
-        #if($shiro.hasPermission("upms:system:update"))
+        #if($shiro.hasPermission("upms:organization:update"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()">
-                <i class="zmdi zmdi-edit"></i>编辑系统
+                <i class="zmdi zmdi-edit"></i>编辑组织
             </a>
         #end
-        #if($shiro.hasPermission("upms:system:delete"))
+        #if($shiro.hasPermission("upms:organization:delete"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()">
-                <i class="zmdi zmdi-close"></i> 删除系统
+                <i class="zmdi zmdi-close"></i> 删除组织
             </a>
         #end
     </div>
     <table id="table"></table>
 </div>
-#parse("/layout/commonJs.vm")
+    #parse("/layout/commonJs.vm")
 <script>
     var table = $('#table');
     $(function () {
         // bootstrap table初始化
         table.bootstrapTable({
-            url: "#springUrl('/manage/system/list')",
+            url: "#springUrl('/manage/organization/list')",
             height: getHeight(),
             striped: true,
             search: true,
@@ -51,17 +51,15 @@
             smartDisplay: false,
             escape: true,
             searchOnEnterKey: true,
-            idField: 'systemId',
+            idField: 'organizationId',
             maintainSelected: true,
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'systemId', title: '编号', sortable: true, align: 'center'},
-                {field: 'icon', title: '图标', sortable: true, align: 'center', formatter: 'iconFormatter'},
-                {field: 'title', title: '系统标题'},
-                {field: 'name', title: '系统名称'},
-                {field: 'basepath', title: '根目录'},
-                {field: 'status', title: '状态', sortable: true, align: 'center', formatter: 'statusFormatter'},
+                {field: 'organizationId', title: '编号', sortable: true, align: 'center'},
+                {field: 'name', title: '组织名称'},
+                {field: 'description', title: '组织描述'},
+//                {field: 'status', title: '状态', sortable: true, align: 'center', formatter: 'statusFormatter'},
                 {
                     field: 'action',
                     title: '操作',
@@ -76,11 +74,11 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         var operationBtn = '';
-        #if($shiro.hasPermission("upms:system:update"))
-            operationBtn += '<a class="update" href="javascript:;" onclick="updateActionById('+row.systemId+')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　';
+        #if($shiro.hasPermission("upms:organization:update"))
+            operationBtn += '<a class="update" href="javascript:;" onclick="updateActionById('+row.organizationId+')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　';
         #end
-        #if($shiro.hasPermission("upms:system:delete"))
-            operationBtn += '<a class="delete" href="javascript:;" onclick="deleteActionById('+row.systemId+')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>';
+        #if($shiro.hasPermission("upms:organization:delete"))
+            operationBtn += '<a class="delete" href="javascript:;" onclick="deleteActionById('+row.organizationId+')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>';
         #end
         return operationBtn;
     }
@@ -101,8 +99,8 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '新增系统',
-            content: 'url:#springUrl('/manage/system/create')',
+            title: '新增组织',
+            content: 'url:#springUrl('/manage/organization/create')',
             onContentReady: function () {
                 initMaterialInput();
             }
@@ -128,8 +126,8 @@
         } else {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑系统',
-                content: 'url:#springUrl('/manage/system/update/')' + rows[0].systemId,
+                title: '编辑组织',
+                content: 'url:#springUrl('/manage/organization/update/')' + rows[0].systemId,
                 onContentReady: function () {
                     initMaterialInput();
                 }
@@ -139,8 +137,8 @@
     function updateActionById(systemId) {
         updateDialog = $.dialog({
             animationSpeed: 300,
-            title: '编辑系统',
-            content: 'url:#springUrl('/manage/system/update/')' + systemId,
+            title: '编辑组织',
+            content: 'url:#springUrl('/manage/organization/update/')' + systemId,
             onContentReady: function () {
                 initMaterialInput();
             }
@@ -166,7 +164,7 @@
         } else {
             var systemIds = new Array();
             for (var i in rows) {
-                systemIds.push(rows[i].systemId);
+                systemIds.push(rows[i].organizationId);
             }
             deleteActionByIds(systemIds);
         }
@@ -177,7 +175,7 @@
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除该系统吗？',
+            content: '确认删除该组织吗？',
             buttons: {
                 confirm: {
                     text: '确认',
@@ -185,7 +183,7 @@
                     action: function () {
                         $.ajax({
                             type: 'post',
-                            url: '#springUrl('/manage/system/delete/')' + systemIds.join("-"),
+                            url: '#springUrl('/manage/organization/delete/')' + systemIds.join("-"),
                             success: function (result) {
                                 if (result.code != 1) {
                                     if (result.data instanceof Array) {

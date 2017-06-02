@@ -12,5 +12,5 @@ import com.bobo.upms.rpc.pojo.UpmsUser;
  * @since 2017-05-26
  */
 public interface IUpmsUserService extends IService<UpmsUser> {
-	
+    UpmsUser createUser(UpmsUser upmsUser);
 }
