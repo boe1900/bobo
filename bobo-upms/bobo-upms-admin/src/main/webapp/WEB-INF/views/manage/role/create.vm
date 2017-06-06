@@ -1,37 +1,40 @@
 ﻿
-<div id="organizationDialog" class="crudDialog">
-	<form id="organizationForm" method="post">
+<div id="createDialog" class="crudDialog">
+	<form id="createForm" method="post">
 		<div class="form-group">
-			<select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
-				#foreach($upmsOrganization in $upmsOrganizations)
-
-                    <option value="${upmsOrganization.organizationId}"
-						#foreach($upmsUserOrganization in $upmsUserOrganizations)
-							#if($upmsOrganization.organizationId == $upmsUserOrganization.organizationId)
-                            	selected="selected"
-							#end
-						#end
-					>
-						${upmsOrganization.name}
-                    </option>
-				#end
-			</select>
+			<label for="name">名称</label>
+			<input id="name" type="text" class="form-control" name="name" maxlength="20">
+		</div>
+		<div class="form-group">
+			<label for="title">标题</label>
+			<input id="title" type="text" class="form-control" name="title" maxlength="20">
+		</div>
+		<div class="form-group">
+			<label for="description">描述</label>
+			<input id="description" type="text" class="form-control" name="description" maxlength="300">
 		</div>
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="organizationSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="organizationDialog.close();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
 <script>
-function organizationSubmit() {
+function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '#springUrl("/manage/user/organization/")' + organizationUserId,
-        data: $('#organizationForm').serialize(),
-		beforeSend: function() {
-
-		},
+        url: '#springUrl("/manage/role/create")',
+        data: $('#createForm').serialize(),
+        beforeSend: function() {
+            if ($('#name').val() == '') {
+                $('#name').focus();
+                return false;
+            }
+			if ($('#title').val() == '') {
+				$('#title').focus();
+				return false;
+			}
+        },
         success: function(result) {
 			if (result.code != 1) {
 				if (result.data instanceof Array) {
@@ -66,8 +69,8 @@ function organizationSubmit() {
 						});
 				}
 			} else {
-				organizationDialog.close();
-//				table.bootstrapTable('refresh');
+				createDialog.close();
+				table.bootstrapTable('refresh');
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

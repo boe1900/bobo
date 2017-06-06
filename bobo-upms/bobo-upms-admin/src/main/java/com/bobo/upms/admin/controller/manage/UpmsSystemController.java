@@ -57,8 +57,8 @@ public class UpmsSystemController {
             @RequestParam(required = false,defaultValue = "",value = "search") String search,
             @RequestParam(required = false,value = "sort") String sort,
             @RequestParam(required = false,value = "order") String order){
-
-        Page<UpmsSystem> page = new Page<UpmsSystem>(offset+1,limit,sort);
+        int current = offset / limit+1;
+        Page<UpmsSystem> page = new Page<UpmsSystem>(current,limit,sort);
         page.setAsc("asc".equals(order));
 
         EntityWrapper<UpmsSystem> ew = new EntityWrapper<UpmsSystem>();

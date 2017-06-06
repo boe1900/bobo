@@ -57,8 +57,8 @@ public class UpmsOrganizationController {
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-
-        Page<UpmsOrganization> page = new Page<UpmsOrganization>(offset+1,limit,sort);
+        int current = offset / limit+1;
+        Page<UpmsOrganization> page = new Page<UpmsOrganization>(current,limit,sort);
         page.setAsc("asc".equals(order));
         EntityWrapper<UpmsOrganization> ew = new EntityWrapper<UpmsOrganization>();
         ew.like(SEARCH_COLUMN,search);

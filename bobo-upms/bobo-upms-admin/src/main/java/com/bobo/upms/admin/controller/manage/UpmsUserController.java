@@ -148,8 +148,8 @@ public class UpmsUserController {
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-
-        Page<UpmsUser> page = new Page<UpmsUser>(offset+1,limit,sort);
+        int current = offset / limit+1;
+        Page<UpmsUser> page = new Page<UpmsUser>(current,limit,sort);
         page.setAsc("asc".equals(order));
 
         EntityWrapper<UpmsUser> ew = new EntityWrapper<UpmsUser>();
