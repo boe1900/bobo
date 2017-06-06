@@ -80,10 +80,10 @@ public class UpmsPermissionController  {
         ew.like(SEARCH_COLUMN,search);
 
         if(0 != type){
-            ew.eq("",type);
+            ew.eq("type",type);
         }
         if(0 != systemId){
-            ew.eq("",systemId);
+            ew.eq("system_id",systemId);
         }
 
         Page<UpmsPermission> upmsPermissions = upmsPermissionService.selectPage(page,ew);
