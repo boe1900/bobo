@@ -2,6 +2,7 @@ package com.bobo.upms.rpc.service.impl;
 
 import com.bobo.upms.rpc.api.IUpmsApiService;
 import com.bobo.upms.rpc.dao.mapper.UpmsApiMapper;
+import com.bobo.upms.rpc.dao.mapper.UpmsLogMapper;
 import com.bobo.upms.rpc.dao.mapper.UpmsUserMapper;
 import com.bobo.upms.rpc.pojo.*;
 import org.slf4j.Logger;
@@ -24,6 +25,9 @@ public class UpmsApiServiceImpl implements IUpmsApiService {
     @Autowired
     private UpmsApiMapper upmsApiMapper;
 
+
+    @Autowired
+    private UpmsLogMapper upmsLogMapper;
 
 
     @Override
@@ -72,6 +76,6 @@ public class UpmsApiServiceImpl implements IUpmsApiService {
 
     @Override
     public int insertUpmsLogSelective(UpmsLog record) {
-        return 0;
+        return upmsLogMapper.insert(record);
     }
 }
