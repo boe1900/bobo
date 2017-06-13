@@ -56,7 +56,7 @@ public class MpGeneratorUtil {
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("123456");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/zheng?characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/bobo_cms?characterEncoding=utf8");
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -88,8 +88,7 @@ public class MpGeneratorUtil {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.bobo.upms.rpc.pojo");
-        pc.setModuleName("do");
+        pc.setParent("com.bobo.cms.rpc.pojo");
         mpg.setPackageInfo(pc);
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】

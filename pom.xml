@@ -20,6 +20,7 @@
     <modules>
         <module>bobo-upms</module>
         <module>bobo-common</module>
+        <module>bobo-cms</module>
     </modules>
 
 

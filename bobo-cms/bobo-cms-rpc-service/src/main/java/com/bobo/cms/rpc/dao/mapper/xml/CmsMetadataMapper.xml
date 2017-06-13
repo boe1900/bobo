@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.cms.rpc.dao.mapper.CmsMetadataMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.bobo.cms.rpc.pojo.CmsMetadata">
+		<id column="id" property="id" />
+		<result column="meta_key" property="metaKey" />
+		<result column="meta_value" property="metaValue" />
+		<result column="object_type" property="objectType" />
+		<result column="object_id" property="objectId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, meta_key AS metaKey, meta_value AS metaValue, object_type AS objectType, object_id AS objectId
+    </sql>
+
+</mapper>

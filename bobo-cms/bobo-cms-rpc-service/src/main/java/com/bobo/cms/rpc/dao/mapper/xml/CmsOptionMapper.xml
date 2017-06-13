@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.cms.rpc.dao.mapper.CmsOptionMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.bobo.cms.rpc.pojo.CmsOption">
+		<id column="id" property="id" />
+		<result column="option_key" property="optionKey" />
+		<result column="option_value" property="optionValue" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, option_key AS optionKey, option_value AS optionValue
+    </sql>
+
+</mapper>

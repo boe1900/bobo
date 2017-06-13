@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <dubbo:application name="bobo-cms-rpc-service"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:protocol name="dubbo" port="20881"/>
+
+    <!-- 附件 -->
+    <bean id="cmsAttachmentService" class="com.bobo.cms.rpc.service.impl.CmsAttachmentServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsAttachmentService" ref="cmsAttachmentService" timeout="10000"/>
+
+    <!-- 评论 -->
+    <bean id="cmsCommentService" class="com.bobo.cms.rpc.service.impl.CmsCommentServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsCommentService" ref="cmsCommentService" timeout="10000"/>
+
+    <!-- 内容 -->
+    <bean id="cmsContentService" class="com.bobo.cms.rpc.service.impl.CmsContentServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsContentService" ref="cmsContentService" timeout="10000"/>
+
+    <!-- 内容分类映射 -->
+    <bean id="cmsMappingService" class="com.bobo.cms.rpc.service.impl.CmsMappingServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsMappingService" ref="cmsMappingService" timeout="10000"/>
+
+    <!-- 元数据 -->
+    <bean id="cmsMetadataService" class="com.bobo.cms.rpc.service.impl.CmsMetadataServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsMetadataService" ref="cmsMetadataService" timeout="10000"/>
+
+    <!-- 配置 -->
+    <bean id="cmsOptionService" class="com.bobo.cms.rpc.service.impl.CmsOptionServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsOptionService" ref="cmsOptionService" timeout="10000"/>
+
+    <!-- 分类 -->
+    <bean id="cmsTaxonomyService" class="com.bobo.cms.rpc.service.impl.CmsTaxonomyServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsTaxonomyService" ref="cmsTaxonomyService" timeout="10000"/>
+
+    <!-- 用户 -->
+    <bean id="cmsUserService" class="com.bobo.cms.rpc.service.impl.CmsUserServiceImpl"/>
+    <dubbo:service interface="com.bobo.cms.rpc.api.ICmsUserService" ref="cmsUserService" timeout="10000"/>
+
+
+</beans>

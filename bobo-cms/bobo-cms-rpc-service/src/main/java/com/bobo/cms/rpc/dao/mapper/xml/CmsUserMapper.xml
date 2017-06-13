@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.cms.rpc.dao.mapper.CmsUserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.bobo.cms.rpc.pojo.CmsUser">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="nickname" property="nickname" />
+		<result column="realname" property="realname" />
+		<result column="password" property="password" />
+		<result column="salt" property="salt" />
+		<result column="email" property="email" />
+		<result column="email_status" property="emailStatus" />
+		<result column="mobile" property="mobile" />
+		<result column="mobile_status" property="mobileStatus" />
+		<result column="telephone" property="telephone" />
+		<result column="amount" property="amount" />
+		<result column="gender" property="gender" />
+		<result column="role" property="role" />
+		<result column="signature" property="signature" />
+		<result column="content_count" property="contentCount" />
+		<result column="comment_count" property="commentCount" />
+		<result column="qq" property="qq" />
+		<result column="wechat" property="wechat" />
+		<result column="weibo" property="weibo" />
+		<result column="facebook" property="facebook" />
+		<result column="linkedin" property="linkedin" />
+		<result column="birthday" property="birthday" />
+		<result column="company" property="company" />
+		<result column="occupation" property="occupation" />
+		<result column="address" property="address" />
+		<result column="zipcode" property="zipcode" />
+		<result column="site" property="site" />
+		<result column="graduateschool" property="graduateschool" />
+		<result column="education" property="education" />
+		<result column="avatar" property="avatar" />
+		<result column="idcardtype" property="idcardtype" />
+		<result column="idcard" property="idcard" />
+		<result column="status" property="status" />
+		<result column="created" property="created" />
+		<result column="create_source" property="createSource" />
+		<result column="logged" property="logged" />
+		<result column="activated" property="activated" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, nickname, realname, password, salt, email, email_status AS emailStatus, mobile, mobile_status AS mobileStatus, telephone, amount, gender, role, signature, content_count AS contentCount, comment_count AS commentCount, qq, wechat, weibo, facebook, linkedin, birthday, company, occupation, address, zipcode, site, graduateschool, education, avatar, idcardtype, idcard, status, created, create_source AS createSource, logged, activated
+    </sql>
+
+</mapper>

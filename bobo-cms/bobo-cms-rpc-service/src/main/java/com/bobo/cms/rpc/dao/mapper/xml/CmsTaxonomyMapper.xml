@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.cms.rpc.dao.mapper.CmsTaxonomyMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.bobo.cms.rpc.pojo.CmsTaxonomy">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="text" property="text" />
+		<result column="slug" property="slug" />
+		<result column="type" property="type" />
+		<result column="icon" property="icon" />
+		<result column="content_module" property="contentModule" />
+		<result column="content_count" property="contentCount" />
+		<result column="order_number" property="orderNumber" />
+		<result column="parent_id" property="parentId" />
+		<result column="object_id" property="objectId" />
+		<result column="flag" property="flag" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
+		<result column="meta_keywords" property="metaKeywords" />
+		<result column="meta_description" property="metaDescription" />
+		<result column="created" property="created" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, text, slug, type, icon, content_module AS contentModule, content_count AS contentCount, order_number AS orderNumber, parent_id AS parentId, object_id AS objectId, flag, lat, lng, meta_keywords AS metaKeywords, meta_description AS metaDescription, created
+    </sql>
+
+</mapper>

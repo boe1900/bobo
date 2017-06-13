@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bobo.cms.rpc.dao.mapper.CmsCommentMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.bobo.cms.rpc.pojo.CmsComment">
+		<id column="id" property="id" />
+		<result column="parent_id" property="parentId" />
+		<result column="content_id" property="contentId" />
+		<result column="content_module" property="contentModule" />
+		<result column="comment_count" property="commentCount" />
+		<result column="order_number" property="orderNumber" />
+		<result column="user_id" property="userId" />
+		<result column="ip" property="ip" />
+		<result column="author" property="author" />
+		<result column="type" property="type" />
+		<result column="text" property="text" />
+		<result column="agent" property="agent" />
+		<result column="created" property="created" />
+		<result column="slug" property="slug" />
+		<result column="email" property="email" />
+		<result column="status" property="status" />
+		<result column="vote_up" property="voteUp" />
+		<result column="vote_down" property="voteDown" />
+		<result column="flag" property="flag" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parent_id AS parentId, content_id AS contentId, content_module AS contentModule, comment_count AS commentCount, order_number AS orderNumber, user_id AS userId, ip, author, type, text, agent, created, slug, email, status, vote_up AS voteUp, vote_down AS voteDown, flag, lat, lng
+    </sql>
+
+</mapper>
