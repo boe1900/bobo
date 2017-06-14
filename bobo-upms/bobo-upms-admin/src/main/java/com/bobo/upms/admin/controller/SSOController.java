@@ -2,12 +2,15 @@ package com.bobo.upms.admin.controller;
 
 
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.bobo.common.util.RedisUtil;
 import com.bobo.common.util.StringUtil;
 import com.bobo.upms.client.constant.UpmsResult;
 import com.bobo.upms.client.constant.UpmsResultConstant;
 import com.bobo.upms.client.shiro.session.UpmsSession;
 import com.bobo.upms.client.shiro.session.UpmsSessionDao;
+import com.bobo.upms.rpc.api.IUpmsSystemService;
+import com.bobo.upms.rpc.pojo.UpmsSystem;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.BooleanUtils;
@@ -25,8 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 /**
@@ -50,6 +55,28 @@ public class SSOController {
     @Autowired
     UpmsSessionDao upmsSessionDao;
 
+    @Autowired
+    IUpmsSystemService upmsSystemService;
+
+
+    @ApiOperation(value = "认证中心首页")
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index(HttpServletRequest request) throws Exception {
+        String appid = request.getParameter("appid");
+        String backurl = request.getParameter("backurl");
+        if (StringUtils.isBlank(appid)) {
+            throw new RuntimeException("无效访问！");
+        }
+        // 判断请求认证系统是否注册
+        EntityWrapper<UpmsSystem> ew = new EntityWrapper<>();
+        ew.eq("name",appid);
+
+        int count = upmsSystemService.selectCount(ew);
+        if (0 == count) {
+            throw new RuntimeException(String.format("未注册的系统:%s", appid));
+        }
+        return "redirect:/sso/login?backurl=" + URLEncoder.encode(backurl, "utf-8");
+    }
 
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -138,6 +165,18 @@ public class SSOController {
         }
     }
 
+
+    @ApiOperation(value = "校验code")
+    @RequestMapping(value = "/code", method = RequestMethod.POST)
+    @ResponseBody
+    public Object code(HttpServletRequest request) {
+        String codeParam = request.getParameter("code");
+        String code = RedisUtil.get(BOBO_UPMS_SERVER_CODE + "_" + codeParam);
+        if (StringUtils.isBlank(codeParam) || !codeParam.equals(code)) {
+            new UpmsResult(UpmsResultConstant.FAILED, "无效code");
+        }
+        return new UpmsResult(UpmsResultConstant.SUCCESS, code);
+    }
 
     @ApiOperation(value = "退出登录")
     @RequestMapping(value = "logout",method = RequestMethod.GET)
