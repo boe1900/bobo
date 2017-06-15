@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.bobo.common.validator.LengthValidator;
@@ -15,7 +16,6 @@ import com.bobo.upms.rpc.pojo.UpmsRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +48,14 @@ public class UpmsRoleController {
     private IUpmsRolePermissionService upmsRolePermissionService;
 
     @ApiOperation(value = "角色首页")
-    @RequiresPermissions("upms:role:read")
+    @Permission("upms:role:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "/manage/role/index";
     }
 
     @ApiOperation(value = "角色权限")
-    @RequiresPermissions("upms:role:permission")
+    @Permission("upms:role:permission")
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.GET)
     public String permission(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsRole role = upmsRoleService.selectById(id);
@@ -64,7 +64,7 @@ public class UpmsRoleController {
     }
 
     @ApiOperation(value = "角色权限")
-    @RequiresPermissions("upms:role:permission")
+    @Permission("upms:role:permission")
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object permission(@PathVariable("id") int id, HttpServletRequest request) {
@@ -74,7 +74,7 @@ public class UpmsRoleController {
     }
 
     @ApiOperation(value = "角色列表")
-    @RequiresPermissions("upms:role:read")
+    @Permission("upms:role:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -99,14 +99,14 @@ public class UpmsRoleController {
     }
 
     @ApiOperation(value = "新增角色")
-    @RequiresPermissions("upms:role:create")
+    @Permission("upms:role:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "/manage/role/create";
     }
 
     @ApiOperation(value = "新增角色")
-    @RequiresPermissions("upms:role:create")
+    @Permission("upms:role:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsRole upmsRole) {
@@ -126,7 +126,7 @@ public class UpmsRoleController {
     }
 
     @ApiOperation(value = "删除角色")
-    @RequiresPermissions("upms:role:delete")
+    @Permission("upms:role:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
@@ -136,7 +136,7 @@ public class UpmsRoleController {
     }
 
     @ApiOperation(value = "修改角色")
-    @RequiresPermissions("upms:role:update")
+    @Permission("upms:role:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsRole role = upmsRoleService.selectById(id);
@@ -145,7 +145,7 @@ public class UpmsRoleController {
     }
 
     @ApiOperation(value = "修改角色")
-    @RequiresPermissions("upms:role:update")
+    @Permission("upms:role:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsRole upmsRole) {

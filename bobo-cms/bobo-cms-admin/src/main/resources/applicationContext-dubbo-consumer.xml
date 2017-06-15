@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <dubbo:application name="bobo-upms-admin"/>
+
+    <dubbo:registry file="./bobo-cms-admin-dubbo.cache" address="zookeeper://127.0.0.1:2181"/>
+
+    <!-- 订阅服务 -->
+    <dubbo:consumer check="false"/>
+
+    <!-- 附件 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsAttachmentService" id="cmsAttachmentService" mock="false"/>
+
+    <!-- 评论 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsCommentService" id="cmsCommentService" mock="false"/>
+
+    <!-- 内容 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsContentService" id="cmsContentService" mock="false"/>
+
+    <!-- 内容分类映射 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsMappingService" id="cmsMappingService" mock="false"/>
+
+    <!-- 元数据 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsMetadataService" id="cmsMetadataService" mock="false"/>
+
+    <!-- 配置 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsOptionService" id="cmsOptionService" mock="false"/>
+
+    <!-- 分类 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsTaxonomyService" id="cmsTaxonomyService" mock="false"/>
+
+    <!-- 用户 -->
+    <dubbo:reference interface="com.bobo.cms.rpc.api.ICmsUserService" id="cmsUserService" mock="false"/>
+
+    <!-- 接口服务 -->
+    <dubbo:reference id="upmsApiService" interface="com.bobo.upms.rpc.api.IUpmsApiService" mock="false"/>
+
+</beans>

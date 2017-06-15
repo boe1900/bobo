@@ -10,17 +10,17 @@
 <body>
 <div id="main">
     <div id="toolbar">
-        #if($shiro.hasPermission("upms:system:create"))
+        #if($kisso.hasPermission("upms:system:create"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()">
                 <i class="zmdi zmdi-plus"></i>新增系统
             </a>
         #end
-        #if($shiro.hasPermission("upms:system:update"))
+        #if($kisso.hasPermission("upms:system:update"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()">
                 <i class="zmdi zmdi-edit"></i>编辑系统
             </a>
         #end
-        #if($shiro.hasPermission("upms:system:delete"))
+        #if($kisso.hasPermission("upms:system:delete"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()">
                 <i class="zmdi zmdi-close"></i> 删除系统
             </a>
@@ -76,10 +76,10 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         var operationBtn = '';
-        #if($shiro.hasPermission("upms:system:update"))
+        #if($kisso.hasPermission("upms:system:update"))
             operationBtn += '<a class="update" href="javascript:;" onclick="updateActionById('+row.systemId+')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　';
         #end
-        #if($shiro.hasPermission("upms:system:delete"))
+        #if($kisso.hasPermission("upms:system:delete"))
             operationBtn += '<a class="delete" href="javascript:;" onclick="deleteActionById('+row.systemId+')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>';
         #end
         return operationBtn;

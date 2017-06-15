@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <bean class="com.bobo.upms.client.interceptor.LogAspect"/>
+
+    <!-- 获取ApplicationContext上下文 -->
+    <bean id="springContextHolder" class="com.bobo.upms.client.kisso.SpringContextHolder" />
+
+
+    <bean id="kissoInit" class="com.baomidou.kisso.web.WebKissoConfigurer" init-method="initKisso">
+    </bean>
+
+    <bean id="ssoAuthorization" class="com.bobo.upms.client.kisso.SSOAuthorizationImpl"/>
+
+    <mvc:interceptors>
+        <!-- SSO 拦截器 -->
+        <!-- path 对所有的请求拦截使用/**，对某个模块下的请求拦截使用：/myPath/* -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.baomidou.kisso.web.interceptor.SSOSpringInterceptor"/>
+        </mvc:interceptor>
+        <!-- SSO 权限拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean class="com.baomidou.kisso.web.interceptor.SSOPermissionInterceptor">
+                <property name="authorization" ref="ssoAuthorization"/>
+                <property name="illegalUrl" value="/error/illegalAccess.html"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 
 
 

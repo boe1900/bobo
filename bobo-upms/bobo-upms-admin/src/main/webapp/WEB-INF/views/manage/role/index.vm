@@ -11,16 +11,16 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		#if($shiro.hasPermission("upms:role:create"))
+		#if($kisso.hasPermission("upms:role:create"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增角色</a>
 		#end
-		#if($shiro.hasPermission("upms:role:update"))
+		#if($kisso.hasPermission("upms:role:update"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑角色</a>
 		#end
-		#if($shiro.hasPermission("upms:role:delete"))
+		#if($kisso.hasPermission("upms:role:delete"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除角色</a>
 		#end
-		#if($shiro.hasPermission("upms:role:permission"))
+		#if($kisso.hasPermission("upms:role:permission"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="permissionAction()"><i class="zmdi zmdi-key"></i> 角色权限</a>
 		#end
 	</div>

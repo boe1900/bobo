@@ -11,7 +11,7 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		#if($shiro.hasPermission("upms:log:delete"))
+		#if($kisso.hasPermission("upms:log:delete"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除日志</a>
 		#end
 	</div>

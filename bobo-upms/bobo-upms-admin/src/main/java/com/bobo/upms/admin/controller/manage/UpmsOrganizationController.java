@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollector;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.bobo.common.validator.LengthValidator;
@@ -14,7 +15,6 @@ import com.bobo.upms.rpc.api.IUpmsOrganizationService;
 import com.bobo.upms.rpc.pojo.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -41,14 +41,14 @@ public class UpmsOrganizationController {
 
 
     @ApiOperation(value = "组织首页")
-    @RequiresPermissions("upms:organization:read")
+    @Permission("upms:organization:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(){
         return "manage/organization/index";
     }
 
     @ApiOperation(value = "组织列表")
-    @RequiresPermissions("upms:organization:read")
+    @Permission("upms:organization:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -70,7 +70,7 @@ public class UpmsOrganizationController {
     }
 
     @ApiOperation(value = "新增组织")
-    @RequiresPermissions("upms:organization:create")
+    @Permission("upms:organization:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "manage/organization/create";
@@ -80,7 +80,7 @@ public class UpmsOrganizationController {
 
 
     @ApiOperation(value = "新增组织")
-    @RequiresPermissions("upms:organization:create")
+    @Permission("upms:organization:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsOrganization upmsOrganization) {
@@ -98,7 +98,7 @@ public class UpmsOrganizationController {
     }
 
     @ApiOperation(value = "删除组织")
-    @RequiresPermissions("upms:organization:delete")
+    @Permission("upms:organization:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
@@ -110,7 +110,7 @@ public class UpmsOrganizationController {
 
 
     @ApiOperation(value = "修改组织")
-    @RequiresPermissions("upms:organization:update")
+    @Permission("upms:organization:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsOrganization organization = upmsOrganizationService.selectById(id);
@@ -119,7 +119,7 @@ public class UpmsOrganizationController {
     }
 
     @ApiOperation(value = "修改组织")
-    @RequiresPermissions("upms:organization:update")
+    @Permission("upms:organization:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsOrganization upmsOrganization) {

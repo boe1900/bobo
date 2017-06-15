@@ -1,10 +1,11 @@
 package com.bobo.upms.admin.interceptor;
 
+import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.SSOToken;
 import com.bobo.upms.rpc.api.IUpmsApiService;
 
+import com.bobo.upms.rpc.api.IUpmsUserService;
 import com.bobo.upms.rpc.pojo.UpmsUser;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,11 @@ public class UpmsInterceptor extends HandlerInterceptorAdapter {
 
     private static Logger _log = LoggerFactory.getLogger(UpmsInterceptor.class);
 
+//    @Resource
+//    IUpmsApiService upmsApiService;
+
     @Resource
-    IUpmsApiService upmsApiService;
+    IUpmsUserService upmsUserService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -33,10 +37,11 @@ public class UpmsInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         // 登录信息
-        Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipal();
-        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
-        request.setAttribute("upmsUser", upmsUser);
+        SSOToken st = SSOHelper.getToken(request);
+        if(st != null){
+            UpmsUser upmsUser = upmsUserService.selectById(st.getId());
+            request.setAttribute("upmsUser", upmsUser);
+        }
         return true;
     }
 

@@ -11,7 +11,7 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		#if($shiro.hasPermission("upms:session:forceout"))
+		#if($kisso.hasPermission("upms:session:forceout"))
         <a class="waves-effect waves-button" href="javascript:;" onclick="forceoutAction()"><i class="zmdi zmdi-run"></i> 强制退出</a>
 		#end
 	</div>

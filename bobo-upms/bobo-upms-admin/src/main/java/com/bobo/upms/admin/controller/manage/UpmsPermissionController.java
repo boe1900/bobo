@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.bobo.common.validator.LengthValidator;
@@ -18,7 +19,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +55,13 @@ public class UpmsPermissionController  {
 
 
     @ApiOperation(value = "权限首页")
-    @RequiresPermissions("upms:permission:read")
+    @Permission("upms:permission:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "/manage/permission/index";
     }
     @ApiOperation(value = "权限列表")
-    @RequiresPermissions("upms:permission:read")
+    @Permission("upms:permission:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -100,14 +100,14 @@ public class UpmsPermissionController  {
 
 
     @ApiOperation(value = "角色权限列表")
-    @RequiresPermissions("upms:permission:read")
+    @Permission("upms:permission:read")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object role(@PathVariable("id") int id) {
         return upmsPermissionService.getTreeByRoleId(id);
     }
     @ApiOperation(value = "用户权限列表")
-    @RequiresPermissions("upms:permission:read")
+    @Permission("upms:permission:read")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object user(@PathVariable("id") int id, HttpServletRequest request) {
@@ -117,7 +117,7 @@ public class UpmsPermissionController  {
 
 
     @ApiOperation(value = "新增权限")
-    @RequiresPermissions("upms:permission:create")
+    @Permission("upms:permission:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap modelMap) {
         EntityWrapper<UpmsSystem> ew = new EntityWrapper<>();
@@ -128,7 +128,7 @@ public class UpmsPermissionController  {
     }
 
     @ApiOperation(value = "新增权限")
-    @RequiresPermissions("upms:permission:create")
+    @Permission("upms:permission:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsPermission upmsPermission) {
@@ -147,7 +147,7 @@ public class UpmsPermissionController  {
     }
 
     @ApiOperation(value = "删除权限")
-    @RequiresPermissions("upms:permission:delete")
+    @Permission("upms:permission:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
@@ -158,7 +158,7 @@ public class UpmsPermissionController  {
     }
 
     @ApiOperation(value = "修改权限")
-    @RequiresPermissions("upms:permission:update")
+    @Permission("upms:permission:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         EntityWrapper<UpmsSystem> ew = new EntityWrapper<>();
@@ -171,7 +171,7 @@ public class UpmsPermissionController  {
     }
 
     @ApiOperation(value = "修改权限")
-    @RequiresPermissions("upms:permission:update")
+    @Permission("upms:permission:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsPermission upmsPermission) {

@@ -4,6 +4,7 @@ package com.bobo.upms.admin.controller.manage;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.bobo.common.validator.LengthValidator;
@@ -13,7 +14,6 @@ import com.bobo.upms.rpc.api.IUpmsSystemService;
 import com.bobo.upms.rpc.pojo.UpmsSystem;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +41,14 @@ public class UpmsSystemController {
 
 
     @ApiOperation(value = "系统首页")
-    @RequiresPermissions("upms:system:read")
+    @Permission("upms:system:read")
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(){
         return "manage/system/index";
     }
 
     @ApiOperation(value = "系统列表")
-    @RequiresPermissions("upms:system:read")
+    @Permission("upms:system:read")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -73,14 +73,14 @@ public class UpmsSystemController {
     }
 
     @ApiOperation(value = "新增系统")
-    @RequiresPermissions("upms:system:create")
+    @Permission("upms:system:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "/manage/system/create";
     }
 
     @ApiOperation(value = "新增系统")
-    @RequiresPermissions("upms:system:create")
+    @Permission("upms:system:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Object create(UpmsSystem upmsSystem) {
@@ -100,7 +100,7 @@ public class UpmsSystemController {
     }
 
     @ApiOperation(value = "删除系统")
-    @RequiresPermissions("upms:system:delete")
+    @Permission("upms:system:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
@@ -111,7 +111,7 @@ public class UpmsSystemController {
     }
 
     @ApiOperation(value = "修改系统")
-    @RequiresPermissions("upms:system:update")
+    @Permission("upms:system:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsSystem system = upmsSystemService.selectById(id);
@@ -120,7 +120,7 @@ public class UpmsSystemController {
     }
 
     @ApiOperation(value = "修改系统")
-    @RequiresPermissions("upms:system:update")
+    @Permission("upms:system:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsSystem upmsSystem) {

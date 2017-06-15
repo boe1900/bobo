@@ -1,5 +1,6 @@
 package com.bobo.upms.admin.controller.manage;
 
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.bobo.upms.client.constant.UpmsResult;
@@ -9,7 +10,7 @@ import com.bobo.upms.rpc.pojo.UpmsLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +38,14 @@ public class UpmsLogController {
     private IUpmsLogService upmsLogService;
 
     @ApiOperation(value = "日志首页")
-    @RequiresPermissions("upms:log:read")
+    @Permission("upms:log:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "/manage/log/index";
     }
 
     @ApiOperation(value = "日志列表")
-    @RequiresPermissions("upms:log:read")
+    @Permission("upms:log:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -72,7 +73,7 @@ public class UpmsLogController {
     }
 
     @ApiOperation(value = "删除日志")
-    @RequiresPermissions("upms:log:delete")
+    @Permission("upms:log:delete")
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {

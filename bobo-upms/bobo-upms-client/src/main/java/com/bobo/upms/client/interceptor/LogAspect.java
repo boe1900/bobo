@@ -1,12 +1,12 @@
 package com.bobo.upms.client.interceptor;
 
 
+import com.baomidou.kisso.annotation.Permission;
 import com.bobo.common.util.RequestUtil;
 import com.bobo.upms.rpc.api.IUpmsApiService;
 import com.bobo.upms.rpc.pojo.UpmsLog;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -69,12 +69,9 @@ public class LogAspect {
             ApiOperation log = method.getAnnotation(ApiOperation.class);
             upmsLog.setDescription(log.value());
         }
-        if (method.isAnnotationPresent(RequiresPermissions.class)) {
-            RequiresPermissions requiresPermissions = method.getAnnotation(RequiresPermissions.class);
-            String[] permissions = requiresPermissions.value();
-            if (permissions.length > 0) {
-                upmsLog.setPermissions(permissions[0]);
-            }
+        if (method.isAnnotationPresent(Permission.class)) {
+            Permission permission = method.getAnnotation(Permission.class);
+            upmsLog.setPermissions(permission.value());
         }
         endTime = System.currentTimeMillis();
         _log.debug("doAround>>>result={},耗时：{}", result, endTime - startTime);

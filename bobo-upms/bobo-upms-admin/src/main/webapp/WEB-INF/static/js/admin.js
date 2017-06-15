@@ -43,9 +43,9 @@ $(function() {
 		$.cookie('bobo-upms-systemtitle', systemtitle);
 	});
 	// 显示cookie菜单
-	var systemid = $.cookie('bobo-upms-systemid') || 1;
-	var systemname = $.cookie('bobo-upms-systemname') || 'bobo-upms-server';
-	var systemtitle = $.cookie('bobo-upms-systemtitle') || '权限管理系统';
+	var systemid = SYSTEM_ID || 1;
+	var systemname = SYSTEM_NAME || 'bobo-upms-server';
+	var systemtitle = SYSTEM_TITLE || '权限管理系统';
 	$('.system_menus').hide(0, function () {
 		$('.system_' + systemid).show();
 	});

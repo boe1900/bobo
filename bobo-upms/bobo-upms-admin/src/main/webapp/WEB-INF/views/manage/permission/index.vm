@@ -11,13 +11,13 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		#if($shiro.hasPermission("upms:permission:create"))
+		#if($kisso.hasPermission("upms:permission:create"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增权限</a>
 		#end
-		#if($shiro.hasPermission("upms:permission:update"))
+		#if($kisso.hasPermission("upms:permission:update"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑权限</a>
 		#end
-		#if($shiro.hasPermission("upms:permission:delete"))
+		#if($kisso.hasPermission("upms:permission:delete"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除权限</a>
 		#end
 

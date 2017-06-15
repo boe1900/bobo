@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.bobo.common.util.MD5Util;
@@ -17,7 +18,6 @@ import com.bobo.upms.rpc.pojo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,14 +60,14 @@ public class UpmsUserController {
     private IUpmsUserPermissionService upmsUserPermissionService;
 
     @ApiOperation(value = "用户首页")
-    @RequiresPermissions("upms:user:read")
+    @Permission("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "/manage/user/index";
     }
 
     @ApiOperation(value = "用户组织")
-    @RequiresPermissions("upms:user:organization")
+    @Permission("upms:user:organization")
     @RequestMapping(value = "/organization/{id}", method = RequestMethod.GET)
     public String organization(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有组织
@@ -82,7 +82,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "用户组织")
-    @RequiresPermissions("upms:user:organization")
+    @Permission("upms:user:organization")
     @RequestMapping(value = "/organization/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object organization(@PathVariable("id") int id, HttpServletRequest request) {
@@ -93,7 +93,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "用户角色")
-    @RequiresPermissions("upms:user:role")
+    @Permission("upms:user:role")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
     public String role(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有角色
@@ -110,7 +110,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "用户角色")
-    @RequiresPermissions("upms:user:role")
+    @Permission("upms:user:role")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object role(@PathVariable("id") int id, HttpServletRequest request) {
@@ -120,7 +120,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "用户权限")
-    @RequiresPermissions("upms:user:permission")
+    @Permission("upms:user:permission")
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.GET)
     public String permission(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsUser user = upmsUserService.selectById(id);
@@ -129,7 +129,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "用户权限")
-    @RequiresPermissions("upms:user:permission")
+    @Permission("upms:user:permission")
     @RequestMapping(value = "/permission/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object permission(@PathVariable("id") int id, HttpServletRequest request) {
@@ -139,7 +139,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "用户列表")
-    @RequiresPermissions("upms:user:read")
+    @Permission("upms:user:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -166,14 +166,14 @@ public class UpmsUserController {
 
 
     @ApiOperation(value = "新增用户")
-    @RequiresPermissions("upms:user:create")
+    @Permission("upms:user:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "/manage/user/create";
     }
 
     @ApiOperation(value = "新增用户")
-    @RequiresPermissions("upms:user:create")
+    @Permission("upms:user:create")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsUser upmsUser) {
@@ -200,7 +200,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "删除用户")
-    @RequiresPermissions("upms:user:delete")
+    @Permission("upms:user:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
@@ -210,7 +210,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "修改用户")
-    @RequiresPermissions("upms:user:update")
+    @Permission("upms:user:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsUser user = upmsUserService.selectById(id);
@@ -219,7 +219,7 @@ public class UpmsUserController {
     }
 
     @ApiOperation(value = "修改用户")
-    @RequiresPermissions("upms:user:update")
+    @Permission("upms:user:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsUser upmsUser) {

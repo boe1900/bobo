@@ -1,7 +1,12 @@
 package com.bobo.upms.admin.controller;
 
+import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.SSOToken;
+import com.baomidou.kisso.annotation.Action;
+import com.baomidou.kisso.annotation.Permission;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.bobo.common.base.BaseController;
 import com.bobo.upms.rpc.api.IUpmsApiService;
 import com.bobo.upms.rpc.api.IUpmsSystemService;
 import com.bobo.upms.rpc.pojo.UpmsPermission;
@@ -9,8 +14,7 @@ import com.bobo.upms.rpc.pojo.UpmsSystem;
 import com.bobo.upms.rpc.pojo.UpmsUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +33,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/manage")
 @Api(value = "后台管理", description = "后台管理")
-public class ManageController {
+public class ManageController extends BaseController{
     private static Logger _log = LoggerFactory.getLogger(ManageController.class);
 
     @Resource
@@ -40,6 +44,7 @@ public class ManageController {
 
 
     @ApiOperation(value = "后台首页")
+    @Permission(action = Action.Skip)
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap modelMap){
         EntityWrapper<UpmsSystem> wrapper = new EntityWrapper<>();
@@ -48,12 +53,18 @@ public class ManageController {
         wrapper.setEntity(condition);
         List<UpmsSystem> upmsSystems = upmsSystemService.selectList(wrapper);
         modelMap.put("upmsSystems",upmsSystems);
+        String appName = request.getParameter("appName");
+        if(StringUtils.isNotBlank(appName) && upmsSystems != null){
+            for(UpmsSystem upmsSystem:upmsSystems){
+                if(upmsSystem.getName().equals(appName)){
+                    modelMap.put("currentSystem",upmsSystem);
+                }
+            }
+        }
         //当前登录用户
-        Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipal();
-        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
+        SSOToken st = SSOHelper.getToken(request);
 
-        List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
+        List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId((Integer) st.getId());
 
         modelMap.put("upmsPermissions",upmsPermissions);
 

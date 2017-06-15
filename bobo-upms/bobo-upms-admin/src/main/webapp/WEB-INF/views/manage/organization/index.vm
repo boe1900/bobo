@@ -10,17 +10,17 @@
 <body>
 <div id="main">
     <div id="toolbar">
-        #if($shiro.hasPermission("upms:organization:create"))
+        #if($kisso.hasPermission("upms:organization:create"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()">
                 <i class="zmdi zmdi-plus"></i>新增组织
             </a>
         #end
-        #if($shiro.hasPermission("upms:organization:update"))
+        #if($kisso.hasPermission("upms:organization:update"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()">
                 <i class="zmdi zmdi-edit"></i>编辑组织
             </a>
         #end
-        #if($shiro.hasPermission("upms:organization:delete"))
+        #if($kisso.hasPermission("upms:organization:delete"))
             <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()">
                 <i class="zmdi zmdi-close"></i> 删除组织
             </a>
@@ -74,10 +74,10 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         var operationBtn = '';
-        #if($shiro.hasPermission("upms:organization:update"))
+        #if($kisso.hasPermission("upms:organization:update"))
             operationBtn += '<a class="update" href="javascript:;" onclick="updateActionById('+row.organizationId+')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　';
         #end
-        #if($shiro.hasPermission("upms:organization:delete"))
+        #if($kisso.hasPermission("upms:organization:delete"))
             operationBtn += '<a class="delete" href="javascript:;" onclick="deleteActionById('+row.organizationId+')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>';
         #end
         return operationBtn;

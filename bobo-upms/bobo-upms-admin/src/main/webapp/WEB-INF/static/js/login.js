@@ -30,14 +30,14 @@ function login() {
 			username: $('#username').val(),
 			password: $('#password').val(),
 			rememberMe: $('#rememberMe').is(':checked'),
-			backurl: BACK_URL
+            ReturnURL: ReturnURL
 		},
 		beforeSend: function() {
 
 		},
 		success: function(json){
 			if (json.code == 1) {
-				location.href = json.data;
+                window.location.href = json.data;
 			} else {
 				alert(json.data);
 				if (10101 == json.code) {

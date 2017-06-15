@@ -191,6 +191,9 @@
 </section>
 <footer id="footer"></footer>
 <script>var BASE_PATH = "#springUrl('')";</script>
+<script>var SYSTEM_ID = "$!{currentSystem.systemId}";</script>
+<script>var SYSTEM_NAME = "$!{currentSystem.name}";</script>
+<script>var SYSTEM_TITLE = "$!{currentSystem.title}";</script>
 <script src="#springUrl('/static/plugins/jquery.1.12.4.min.js')"></script>
 <script src="#springUrl('/static/plugins/bootstrap-3.3.0/js/bootstrap.min.js')"></script>
 <script src="#springUrl('/static/plugins/waves-0.7.5/waves.min.js')"></script>
