@@ -22,6 +22,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
@@ -38,7 +39,7 @@ public class LogAspect {
     // 结束时间
     private long endTime = 0L;
 
-    @Autowired
+    @Resource
     IUpmsApiService upmsApiService;
 
     @Before("execution(* *..controller..*.*(..))")
