@@ -21,6 +21,11 @@ public class BaseResult {
         this.data = data;
     }
 
+    public BaseResult(int code,String message){
+        this.code = code;
+        this.message = message;
+    }
+
     public int getCode() {
         return code;
     }
