@@ -1,0 +1,19 @@
+package com.bobo.upms.restful.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Created by huabo on 2017/6/22.
+ */
+@RestController
+@RequestMapping("/api")
+public class TestApiController extends BaseController{
+
+    @RequestMapping("test")
+    public Object test(){
+        return "success";
+    }
+
+}

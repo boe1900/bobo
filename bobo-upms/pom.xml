@@ -14,6 +14,7 @@
         <module>bobo-upms-rpc-api</module>
         <module>bobo-upms-client</module>
         <module>bobo-upms-admin</module>
+        <module>bobo-upms-restful-api</module>
     </modules>
     <artifactId>bobo-upms</artifactId>
     <packaging>pom</packaging>

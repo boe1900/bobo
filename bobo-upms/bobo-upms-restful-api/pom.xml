@@ -6,11 +6,10 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>bobo-upms-admin</artifactId>
+    <artifactId>bobo-upms-restful-api</artifactId>
     <packaging>war</packaging>
-    <name>bobo-upms-admin</name>
-
-
+    <name>bobo-upms-restful-api Maven Webapp</name>
+    <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -20,21 +19,24 @@
         </dependency>
         <dependency>
             <groupId>com.bobo</groupId>
-            <artifactId>bobo-upms-client</artifactId>
+            <artifactId>bobo-common</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.bobo</groupId>
+            <artifactId>bobo-upms-rpc-api</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!-- servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
+
 
     <profiles>
         <profile>
@@ -60,8 +62,10 @@
         </profile>
     </profiles>
 
+
+
     <build>
-        <finalName>bobo-upms-admin</finalName>
+        <finalName>bobo-upms-restful-api</finalName>
         <filters>
             <filter>src/main/resources/profiles/${env}.properties</filter>
         </filters>
@@ -84,7 +88,7 @@
                         <contextPath>/</contextPath>
                     </webApp>
                     <httpConnector>
-                        <port>1111</port>
+                        <port>8888</port>
                     </httpConnector>
                     <reload>automatic</reload>
                 </configuration>

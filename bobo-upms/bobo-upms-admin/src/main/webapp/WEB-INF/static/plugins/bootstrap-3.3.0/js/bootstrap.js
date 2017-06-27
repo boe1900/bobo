@@ -166,7 +166,7 @@ if (typeof jQuery === 'undefined') {
   // ALERT DATA-API
   // ==============
 
-  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
+  $(document).on('click.bs.alert.data-controller', dismiss, Alert.prototype.close)
 
 }(jQuery);
 
@@ -275,13 +275,13 @@ if (typeof jQuery === 'undefined') {
   // ===============
 
   $(document)
-    .on('click.bs.button.data-api', '[data-toggle^="button"]', function (e) {
+    .on('click.bs.button.data-controller', '[data-toggle^="button"]', function (e) {
       var $btn = $(e.target)
       if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
       Plugin.call($btn, 'toggle')
       e.preventDefault()
     })
-    .on('focus.bs.button.data-api blur.bs.button.data-api', '[data-toggle^="button"]', function (e) {
+    .on('focus.bs.button.data-controller blur.bs.button.data-controller', '[data-toggle^="button"]', function (e) {
       $(e.target).closest('.btn').toggleClass('focus', e.type == 'focus')
     })
 
@@ -515,8 +515,8 @@ if (typeof jQuery === 'undefined') {
   }
 
   $(document)
-    .on('click.bs.carousel.data-api', '[data-slide]', clickHandler)
-    .on('click.bs.carousel.data-api', '[data-slide-to]', clickHandler)
+    .on('click.bs.carousel.data-controller', '[data-slide]', clickHandler)
+    .on('click.bs.carousel.data-controller', '[data-slide-to]', clickHandler)
 
   $(window).on('load', function () {
     $('[data-ride="carousel"]').each(function () {
@@ -725,7 +725,7 @@ if (typeof jQuery === 'undefined') {
   // COLLAPSE DATA-API
   // =================
 
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+  $(document).on('click.bs.collapse.data-controller', '[data-toggle="collapse"]', function (e) {
     var $this   = $(this)
 
     if (!$this.attr('data-target')) e.preventDefault()
@@ -892,12 +892,12 @@ if (typeof jQuery === 'undefined') {
   // ===================================
 
   $(document)
-    .on('click.bs.dropdown.data-api', clearMenus)
-    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '[role="menu"]', Dropdown.prototype.keydown)
-    .on('keydown.bs.dropdown.data-api', '[role="listbox"]', Dropdown.prototype.keydown)
+    .on('click.bs.dropdown.data-controller', clearMenus)
+    .on('click.bs.dropdown.data-controller', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-controller', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-controller', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-controller', '[role="menu"]', Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-controller', '[role="listbox"]', Dropdown.prototype.keydown)
 
 }(jQuery);
 
@@ -1164,7 +1164,7 @@ if (typeof jQuery === 'undefined') {
   // MODAL DATA-API
   // ==============
 
-  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+  $(document).on('click.bs.modal.data-controller', '[data-toggle="modal"]', function (e) {
     var $this   = $(this)
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
@@ -1949,7 +1949,7 @@ if (typeof jQuery === 'undefined') {
   // SCROLLSPY DATA-API
   // ==================
 
-  $(window).on('load.bs.scrollspy.data-api', function () {
+  $(window).on('load.bs.scrollspy.data-controller', function () {
     $('[data-spy="scroll"]').each(function () {
       var $spy = $(this)
       Plugin.call($spy, $spy.data())
@@ -2107,8 +2107,8 @@ if (typeof jQuery === 'undefined') {
   }
 
   $(document)
-    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
-    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
+    .on('click.bs.tab.data-controller', '[data-toggle="tab"]', clickHandler)
+    .on('click.bs.tab.data-controller', '[data-toggle="pill"]', clickHandler)
 
 }(jQuery);
 
@@ -2131,8 +2131,8 @@ if (typeof jQuery === 'undefined') {
     this.options = $.extend({}, Affix.DEFAULTS, options)
 
     this.$target = $(this.options.target)
-      .on('scroll.bs.affix.data-api', $.proxy(this.checkPosition, this))
-      .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
+      .on('scroll.bs.affix.data-controller', $.proxy(this.checkPosition, this))
+      .on('click.bs.affix.data-controller',  $.proxy(this.checkPositionWithEventLoop, this))
 
     this.$element     = $(element)
     this.affixed      =
