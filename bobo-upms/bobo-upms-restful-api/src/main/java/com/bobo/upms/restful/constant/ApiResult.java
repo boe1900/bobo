@@ -10,4 +10,8 @@ public class ApiResult extends BaseResult {
     public ApiResult(ApiCode apiCode, Object data) {
         super(apiCode.getCode(), apiCode.getDesc(), data);
     }
+
+    public ApiResult(ApiCode apiCode){
+        super(apiCode.getCode(),apiCode.getDesc());
+    }
 }

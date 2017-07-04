@@ -43,14 +43,17 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 
             if(claimsJws != null){
                 return true;
+            }else {
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json; charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                String ret = JSONObject.toJSON(new ApiResult(ApiCode.INVALID_TOKEN,null)).toString();
+                response.getWriter().write(ret);
+                return false;
             }
         }
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        String ret = JSONObject.toJSON(new ApiResult(ApiCode.INVALID_TOKEN,null)).toString();
-        response.getWriter().write(ret);
-        return false;
+
+        return true;
     }
 
     public void setJwtInterceptor(JwtInterceptor jwtInterceptor) {

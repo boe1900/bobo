@@ -20,6 +20,18 @@
     </filter-mapping>
 
 
+    <filter>
+        <filter-name>CrossDomain</filter-name>
+        <filter-class>com.bobo.upms.restful.filter.CrossDomainFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CrossDomain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+
     <!-- 默认的spring配置文件是在WEB-INF下的applicationContext.xml -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
