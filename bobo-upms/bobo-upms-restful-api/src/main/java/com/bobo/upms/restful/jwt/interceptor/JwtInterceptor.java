@@ -5,6 +5,7 @@ import com.baomidou.kisso.annotation.Action;
 import com.baomidou.kisso.annotation.Login;
 import com.bobo.upms.restful.constant.ApiCode;
 import com.bobo.upms.restful.constant.ApiResult;
+import com.bobo.upms.restful.jwt.JwtTokenProvider;
 import com.bobo.upms.restful.jwt.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -20,7 +21,8 @@ import java.lang.reflect.Method;
  */
 public class JwtInterceptor extends HandlerInterceptorAdapter {
 
-    private JwtInterceptor jwtInterceptor;
+
+    private JwtTokenProvider jwtTokenProvider;
 
 
     @Override
@@ -34,29 +36,13 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
                     return true;
                 }
             }
-
-            String auth = request.getHeader("Authorization");
-
-            String token = JwtTokenUtil.extractAuthorizationHeader(auth);
-
-            Jws<Claims> claimsJws = JwtTokenUtil.parseClaims(token);
-
-            if(claimsJws != null){
-                return true;
-            }else {
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json; charset=utf-8");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                String ret = JSONObject.toJSON(new ApiResult(ApiCode.INVALID_TOKEN,null)).toString();
-                response.getWriter().write(ret);
-                return false;
-            }
+            return jwtTokenProvider.doVerifyAccessTokenProcess(request,response);
         }
 
         return true;
     }
 
-    public void setJwtInterceptor(JwtInterceptor jwtInterceptor) {
-        this.jwtInterceptor = jwtInterceptor;
+    public void setJwtTokenProvider(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 }

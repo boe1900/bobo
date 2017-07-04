@@ -2,6 +2,7 @@ package com.bobo.upms.restful.jwt.util;
 
 import com.bobo.common.util.PropertiesFileUtil;
 import com.bobo.upms.restful.jwt.exception.JwtExpiredTokenException;
+import com.bobo.upms.restful.jwt.model.TokenType;
 import com.bobo.upms.restful.jwt.model.UserContext;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang.StringUtils;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 
 import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -21,6 +23,8 @@ import java.util.Date;
 public class JwtTokenUtil {
 
     private static Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
+
+
 
     public static String HEADER_PREFIX = "Bearer ";
 
@@ -31,16 +35,24 @@ public class JwtTokenUtil {
     }
 
 
+    public static int getTokenExpirationTime(){
+        return properties.getInt("tokenExpirationTime");
+    }
+
+
     public static String createAccessJwtToken(UserContext userContext){
         if(StringUtils.isBlank(userContext.getUserName())){
             throw new IllegalArgumentException("Cannot create JWT Token without username");
         }
-        if(userContext.getPermissions() == null || userContext.getPermissions().isEmpty()){
-            throw new IllegalArgumentException("User doesn't have any permission");
+        if(StringUtils.isBlank(userContext.getUserId())){
+            throw new IllegalArgumentException("Cannot create JWT Token without userId");
         }
 
         Claims claims = Jwts.claims().setSubject(userContext.getUserName());
-        claims.put("permissions",userContext.getPermissions());
+
+        claims.put("tokenType", TokenType.ACCESS_TOKEN);
+
+        claims.put("userId",userContext.getUserId());
 
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -60,8 +72,45 @@ public class JwtTokenUtil {
                 .compact();
 
         return token;
-
     }
+
+
+    public static String createRefreshJwtToken(UserContext userContext){
+        if(StringUtils.isBlank(userContext.getUserName())){
+            throw new IllegalArgumentException("Cannot create JWT Token without username");
+        }
+        if(StringUtils.isBlank(userContext.getUserId())){
+            throw new IllegalArgumentException("Cannot create JWT Token without userId");
+        }
+
+        Claims claims = Jwts.claims().setSubject(userContext.getUserName());
+
+        claims.put("tokenType", TokenType.REFRESH_TOKEN);
+
+        claims.put("userId",userContext.getUserId());
+
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+
+        Integer refreshTokenExpTime = properties.getInt("refreshTokenExpTime");
+
+        if(refreshTokenExpTime == null){
+            throw new IllegalArgumentException("refreshTokenExpTime not configured");
+        }
+
+        String token = Jwts.builder()
+                .setClaims(claims)
+                .setIssuer(properties.get("tokenIssuer"))
+                .setId(UUID.randomUUID().toString())
+                .setIssuedAt(now)
+                .setExpiration(new Date(nowMillis+refreshTokenExpTime * 60 * 1000))
+                .signWith(SignatureAlgorithm.HS512, properties.get("tokenSigningKey"))
+                .compact();
+        return token;
+    }
+
+
+
 
 
     public static String extractAuthorizationHeader(String header){

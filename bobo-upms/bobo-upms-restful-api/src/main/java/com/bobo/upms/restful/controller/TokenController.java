@@ -7,7 +7,8 @@ import com.baomidou.kisso.web.waf.request.WafRequestWrapper;
 import com.bobo.common.base.BaseController;
 import com.bobo.common.util.MD5Util;
 import com.bobo.common.util.PropertiesFileUtil;
-import com.bobo.upms.restful.constant.AccessToken;
+import com.bobo.upms.restful.jwt.DefaultJwtTokenProvider;
+import com.bobo.upms.restful.jwt.model.AccessToken;
 import com.bobo.upms.restful.constant.ApiCode;
 import com.bobo.upms.restful.constant.ApiResult;
 import com.bobo.upms.restful.jwt.util.JwtTokenUtil;
@@ -35,7 +36,9 @@ import java.util.List;
 @Api(value = "接口认证中心", description = "接口认证中心")
 public class TokenController extends BaseController{
 
-    public static final String GRANT_TYPE = "app_credential";
+
+    @Autowired
+    private DefaultJwtTokenProvider defaultJwtTokenProvider;
 
     @Autowired
     private IUpmsApiService upmsApiService;
@@ -43,14 +46,13 @@ public class TokenController extends BaseController{
     @ResponseBody
     @RequestMapping(value="/access_token", method = RequestMethod.POST)
     @Login(action = Action.Skip)
-    public Object accessToken() {
+    public Object accessToken() throws Exception {
         WafRequestWrapper wr = new WafRequestWrapper(request);
 
         String grant_type = wr.getParameter("grant_type");
 
-        String appId = wr.getParameter("appId");
 
-        if(GRANT_TYPE.equals(grant_type)){
+        if("password".equals(grant_type)){
             String username = wr.getParameter("username");
             String password = wr.getParameter("password");
             if (StringUtils.isEmpty(username)){
@@ -70,24 +72,19 @@ public class TokenController extends BaseController{
             if(upmsUser.getLocked() == 1){
                 return new ApiResult(ApiCode.INVALID_ACCOUNT,null);
             }
-            //获取用户拥有权限
-            List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
-            List<String > permissions = new ArrayList<>();
-            for(UpmsPermission upmsPermission:upmsPermissions){
-                permissions.add(upmsPermission.getPermissionValue());
-            }
 
-            String accessJwtToken = JwtTokenUtil.createAccessJwtToken(new UserContext(username,permissions));
+            AccessToken accessToken = defaultJwtTokenProvider.getToken(new UserContext(upmsUser.getUserId()+"",username));
 
-
-            //生成accessToken
-            AccessToken  accessToken = new AccessToken();
-            accessToken.setAccess_token(accessJwtToken);
-            accessToken.setExpires_in(PropertiesFileUtil.getInstance("jwt").getInt("tokenExpirationTime"));
-            accessToken.setToken_type("bearer");
             return new ApiResult(ApiCode.OK,accessToken);
         }
-
+        if("refresh_token".equals(grant_type)){
+            String subject = defaultJwtTokenProvider.doVerifyRefreshTokenProcess(request,response);
+            if(StringUtils.isNotBlank(subject)){
+                UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(subject);
+                AccessToken accessToken = defaultJwtTokenProvider.getToken(new UserContext(upmsUser.getUserId()+"",subject));
+                return new ApiResult(ApiCode.OK,accessToken);
+            }
+        }
 
         return new ApiResult(ApiCode.INVALID_REQUEST,null);
     }

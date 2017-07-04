@@ -10,13 +10,13 @@ public class UserContext implements Serializable {
 
     private static final long serialVersionUID = -525273427111504984L;
 
+    private String userId;
+
     private String userName;
 
-    private List<String> permissions;
-
-    public UserContext(String userName, List<String> permissions) {
+    public UserContext(String userId, String userName) {
+        this.userId = userId;
         this.userName = userName;
-        this.permissions = permissions;
     }
 
     public String getUserName() {
@@ -27,11 +27,11 @@ public class UserContext implements Serializable {
         this.userName = userName;
     }
 
-    public List<String> getPermissions() {
-        return permissions;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setPermissions(List<String> permissions) {
-        this.permissions = permissions;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
