@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by huabo on 2017/7/4.
@@ -27,7 +28,7 @@ public class DefaultJwtTokenProvider implements JwtTokenProvider {
 
 
     @Override
-    public boolean doVerifyAccessTokenProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public boolean doVerifyAccessTokenProcess(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String auth = request.getHeader("Authorization");
 
@@ -51,7 +52,7 @@ public class DefaultJwtTokenProvider implements JwtTokenProvider {
     }
 
     @Override
-    public String doVerifyRefreshTokenProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String doVerifyRefreshTokenProcess(HttpServletRequest request, HttpServletResponse response)  {
         WafRequestWrapper wr = new WafRequestWrapper(request);
         String refresh_token = wr.getParameter("refresh_token");
         if(StringUtils.isNotBlank(refresh_token)){

@@ -4,7 +4,6 @@ package com.bobo.upms.restful.controller;
 import com.baomidou.kisso.annotation.Action;
 import com.baomidou.kisso.annotation.Login;
 import com.baomidou.kisso.web.waf.request.WafRequestWrapper;
-import com.bobo.common.base.BaseController;
 import com.bobo.common.util.MD5Util;
 import com.bobo.common.util.PropertiesFileUtil;
 import com.bobo.upms.restful.jwt.DefaultJwtTokenProvider;
@@ -34,7 +33,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/token")
 @Api(value = "接口认证中心", description = "接口认证中心")
-public class TokenController extends BaseController{
+public class TokenController extends BaseRestController{
 
 
     @Autowired

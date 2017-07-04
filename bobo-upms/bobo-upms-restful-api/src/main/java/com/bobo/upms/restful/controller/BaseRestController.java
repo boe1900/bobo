@@ -1,5 +1,6 @@
 package com.bobo.upms.restful.controller;
 
+import com.bobo.common.base.BaseController;
 import com.bobo.upms.restful.constant.ApiCode;
 import com.bobo.upms.restful.constant.ApiResult;
 import com.bobo.upms.restful.jwt.exception.JwtExpiredTokenException;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by huabo on 2017/6/27.
  */
-public class BaseController {
+public class BaseRestController extends BaseController{
 
     @ExceptionHandler
     @ResponseBody

@@ -36,7 +36,11 @@ public class JwtTokenUtil {
 
 
     public static int getTokenExpirationTime(){
-        return properties.getInt("tokenExpirationTime");
+        Integer tokenExpirationTime = properties.getInt("tokenExpirationTime");
+        if(tokenExpirationTime == null){
+            throw new IllegalArgumentException("tokenExpirationTime not configured");
+        }
+        return properties.getInt("tokenExpirationTime")*60*1000;
     }
 
 
