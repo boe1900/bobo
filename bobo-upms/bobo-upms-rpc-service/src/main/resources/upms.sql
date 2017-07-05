@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.5.56 : Database - zheng
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -136,7 +137,7 @@ CREATE TABLE `upms_system` (
 
 /*Data for the table `upms_system` */
 
-insert  into `upms_system`(`system_id`,`icon`,`banner`,`theme`,`basepath`,`status`,`name`,`title`,`description`,`ctime`,`orders`) values (1,'zmdi zmdi-shield-security','/static/images/zheng-upms.png','#29A176','http://upms.zhangshuzheng.cn:1111',1,'bobo-upms-server','权限管理系统','用户权限管理系统（RBAC细粒度用户权限、统一后台、单点登录、会话管理）',1,1),(2,'zmdi zmdi-wikipedia','/static/images/zheng-cms.png','#455EC5','http://cms.zhangshuzheng.cn:2222',1,'bobo-cms-admin','内容管理系统','内容管理系统（门户、博客、论坛、问答等）',2,2);
+insert  into `upms_system`(`system_id`,`icon`,`banner`,`theme`,`basepath`,`status`,`name`,`title`,`description`,`ctime`,`orders`) values (1,'zmdi zmdi-shield-security','/static/images/zheng-upms.png','#29A176','http://upms.test.cn:1111',1,'bobo-upms-server','权限管理系统','用户权限管理系统（RBAC细粒度用户权限、统一后台、单点登录、会话管理）',1,1),(2,'zmdi zmdi-wikipedia','/static/images/zheng-cms.png','#455EC5','http://cms.test.cn:2222',1,'bobo-cms-admin','内容管理系统','内容管理系统（门户、博客、论坛、问答等）',2,2);
 
 /*Table structure for table `upms_user` */
 
