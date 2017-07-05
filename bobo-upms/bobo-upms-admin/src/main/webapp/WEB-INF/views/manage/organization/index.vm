@@ -127,7 +127,7 @@
             updateDialog = $.dialog({
                 animationSpeed: 300,
                 title: '编辑组织',
-                content: 'url:#springUrl('/manage/organization/update/')' + rows[0].systemId,
+                content: 'url:#springUrl('/manage/organization/update/')' + rows[0].organizationId,
                 onContentReady: function () {
                     initMaterialInput();
                 }
