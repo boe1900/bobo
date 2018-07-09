@@ -1,4 +1,4 @@
-# learning project(参考开源项目)
+# learning project(学习项目)
 
 #### 使用技术：
 
